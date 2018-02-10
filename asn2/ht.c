@@ -2,13 +2,27 @@
 // Arizza Santos
 // CS451 ASN2
 
+#include <stdio.h>
+#include <stdlib.h>
 
+#include "misc.h"
+#include "list.h"
+#include "ht.h"
 
-typedef struct sHashTable  *tHashTable;
+struct sHashTable
+{
+  int size;
+  tList elements;
+  void* (*compare_function);
+  void* (*hash_function);
+}
+#define HASHT_SIZE (sizeof (struct sHashTable))
 
-/* exported functions */
+tHashTable ht_initialize(int, int (*compare_function)(),int(*hash_function)()
+{
 
-tHashTable ht_initialize(int, int (*compare_function)(),int(*hash_function)());
+}
+
 void ht_free(tHashTable);
 tHashTable ht_insert(tHashTable, void*);
 tHashTable ht_delete(tHashTable, void*);
