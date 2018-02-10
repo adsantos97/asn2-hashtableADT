@@ -2,43 +2,20 @@
 // Arizza Santos
 // CS451 ASN2
 
-#include <stdio.h>
-#include <stdlib.h>
 
-typedef struct
-{
-  int value;
-  int key;
-} Node;
 
-void display(Node node[], int size)
-{
-  int i;
-  for(i=0; i < size; i++)
-  {
-    printf("%d\t%d\n", node[i].value, node[i].key);
-  }
-}
+typedef struct sHashTable  *tHashTable;
 
-int main()
-{
-  int size, i, temp;
-  printf("Enter the size of the table: ");
-  scanf("%d", &size);
-  
-  Node hash_table[size];
+/* exported functions */
 
-  printf("Enter the elements: ");
-  for(i = 0; i < size; i++)
-  {
-    scanf("%d", &temp);
-    hash_table[temp % size].value = temp;
-    hash_table[temp % size].key = temp%size;
-  }
+tHashTable ht_initialize(int, int (*compare_function)(),int(*hash_function)());
+void ht_free(tHashTable);
+tHashTable ht_insert(tHashTable, void*);
+tHashTable ht_delete(tHashTable, void*);
+void *ht_lookup(tHashTable, void*);
+void ht_print(tHashTable, void (*print_function)());
+void ht_foreach(tHashTable, void (*function)(void *));
+void ht_foreach1(tHashTable, void (*function)(void *, void *), void*);
+void ht_foreach2(tHashTable, void (*function)(void *, void *, void *), void*, void*);
 
-  printf("\n");
-
-  display(hash_table, size);
-
-  return 0;
-}
+#endif
