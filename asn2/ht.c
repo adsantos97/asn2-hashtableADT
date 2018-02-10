@@ -13,23 +13,64 @@ struct sHashTable
 {
   int size;
   tList elements;
-  void* (*compare_function);
-  void* (*hash_function);
-}
+  void* (*compare_function) ();
+  void* (*hash_function) ();
+};
 #define HASHT_SIZE (sizeof (struct sHashTable))
 
-tHashTable ht_initialize(int, int (*compare_function)(),int(*hash_function)()
+tHashTable ht_initialize(int size, int (*compare_function)(),int(*hash_function)())
+{
+  tHashTable ht = check_malloc(HASHT_SIZE);
+  ht->size = size;
+  ht->elements = list_initialize();
+  ht->compare_function = (void*)compare_function; //casting
+  ht->hash_function = (void*)hash_function; //casting
+  return ht;
+}
+
+
+void ht_free(tHashTable ht)
+{
+  list_free(ht->elements);
+  free(ht);
+  printf("Freeing completed.\n");
+}
+
+tHashTable ht_insert(tHashTable ht, void* element)
 {
 
 }
 
-void ht_free(tHashTable);
-tHashTable ht_insert(tHashTable, void*);
-tHashTable ht_delete(tHashTable, void*);
-void *ht_lookup(tHashTable, void*);
-void ht_print(tHashTable, void (*print_function)());
-void ht_foreach(tHashTable, void (*function)(void *));
-void ht_foreach1(tHashTable, void (*function)(void *, void *), void*);
-void ht_foreach2(tHashTable, void (*function)(void *, void *, void *), void*, void*);
 
-#endif
+tHashTable ht_delete(tHashTable ht, void* element)
+{
+
+}
+
+void *ht_lookup(tHashTable ht, void* element)
+{
+
+}
+
+void ht_print(tHashTable ht, void (*print_function)())
+{
+
+}
+
+void ht_foreach(tHashTable ht, void (*function)(void*))
+{
+
+}
+
+void ht_foreach1(tHashTable ht, void (*function)(void* element, void* param1),
+                 void* param1)
+{
+
+}
+
+void ht_foreach2(tHashTable ht, void (*function)(void* element, void* param1,
+                 void* param2), void* param1, void* param2)
+{
+
+}
+
