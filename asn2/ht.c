@@ -25,10 +25,10 @@ tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_functio
 
   tHashTable ht = check_malloc(HASHT_SIZE);
   ht->size = size;
-  for (i=0; i < size; i++)
-  {
+  //for(i=0; i < size; i++)
+  //{
     ht->elements = list_initialize();
-  }
+  //}
   ht->compare_funct = compare_function; 
   ht->hash_funct = hash_function;
 
@@ -47,7 +47,9 @@ void ht_free(tHashTable ht)
 tHashTable ht_insert(tHashTable ht, void* element)
 {
   int hash = ht->hash_funct();
-  //int key = hash % ht->size;  
+  printf("hash: %d\n", hash);
+  int key = hash % ht->size;  
+  printf("key: %d\n", key);
 
   ht->elements = list_insert_end(ht->elements, element);
 
