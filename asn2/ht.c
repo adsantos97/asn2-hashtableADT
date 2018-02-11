@@ -5,14 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "misc.h"
 #include "list.h"
 #include "ht.h"
+#include "misc.h"
 
 struct sHashTable
 {
   int size;
-  tList elements;
+  tList *buckets;
   int (*compare_funct) ();
   int (*hash_funct) ();
 };
@@ -20,15 +20,16 @@ struct sHashTable
 
 tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_function)())
 {
-  int i;
   if (size < 1) return NULL;
 
   tHashTable ht = check_malloc(HASHT_SIZE);
+
+  int i;
+  for(i=0; i< size; i++)
+  {
+    ht->buckets[i] = list_initialize();
+  }
   ht->size = size;
-  //for(i=0; i < size; i++)
-  //{
-    ht->elements = list_initialize();
-  //}
   ht->compare_funct = compare_function; 
   ht->hash_funct = hash_function;
 
@@ -39,7 +40,7 @@ tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_functio
 
 void ht_free(tHashTable ht)
 {
-  list_free(ht->elements);
+  list_free(ht->buckets);
   free(ht);
   //printf("Freeing completed.\n");
 }
@@ -48,10 +49,10 @@ tHashTable ht_insert(tHashTable ht, void* element)
 {
   int hash = ht->hash_funct();
   printf("hash: %d\n", hash);
-  int key = hash % ht->size;  
-  printf("key: %d\n", key);
+  int index = hash % ht->size;  
+  printf("index: %d\n", index);
 
-  ht->elements = list_insert_end(ht->elements, element);
+  list_insert_end(ht->buckets[index], element);
 
   return ht;
 }
