@@ -23,12 +23,14 @@ tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_functio
   if (size < 1) return NULL;
 
   tHashTable ht = check_malloc(HASHT_SIZE);
+  ht->buckets = check_malloc(sizeof(tList)*size);
 
-  int i;
+  /*int i;
   for(i=0; i<size; i++)
   {
     ht->buckets[i] = list_initialize();
-  }
+  }*/
+  //ht->buckets = list_initialize();
   ht->size = size;
   ht->compare_funct = compare_function; 
   ht->hash_funct = hash_function;
@@ -73,7 +75,11 @@ void *ht_lookup(tHashTable ht, void* element)
 
 void ht_print(tHashTable ht, void (*print_function)())
 {
-  
+  /*int i;
+  for (i=0; i<ht->size; i++)
+  {
+    while(ht->
+  } */ 
 }
 
 void ht_foreach(tHashTable ht, void (*function)(void*))
