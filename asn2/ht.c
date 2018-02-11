@@ -30,12 +30,9 @@ tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_functio
   {
     ht->buckets[i] = list_initialize();
   }
-  //ht->buckets = list_initialize();
   ht->size = size;
   ht->compare_funct = compare_function; 
   ht->hash_funct = hash_function;
-
-  //printf("%d\n", ht->size);
 
   return ht;
 }
@@ -48,16 +45,11 @@ void ht_free(tHashTable ht)
     list_free(ht->buckets[i]);
   }
   free(ht);
-  //printf("Freeing completed.\n");
 }
 
 tHashTable ht_insert(tHashTable ht, void* element)
 {
-  int hash = ht->hash_funct();
-  printf("hash: %d\n", hash);
-  int index = hash % ht->size;  
-  printf("index: %d\n", index);
-
+  int index = ht->hash_funct(element);
   list_insert_end(ht->buckets[index], element);
 
   return ht;
@@ -76,10 +68,9 @@ void *ht_lookup(tHashTable ht, void* element)
 void ht_print(tHashTable ht, void (*print_function)())
 {
   int i;
-  for (i=0; i<ht->size; i++)
+  for(i=0; i<ht->size; i++)
   {
-    ht->buckets = ht->buckets + i;
-    while(ht
+    list_foreach(ht->buckets[i], print_function);
   } 
 }
 
