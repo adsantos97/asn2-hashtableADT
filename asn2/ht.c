@@ -18,17 +18,21 @@ struct sHashTable
 };
 #define HASHT_SIZE (sizeof (struct sHashTable))
 
-typedef struct sHashTable *tHashTable;
-
 tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_function)())
 {
+  int i;
   if (size < 1) return NULL;
 
   tHashTable ht = check_malloc(HASHT_SIZE);
   ht->size = size;
-  ht->elements = list_initialize();
+  for (i=0; i < size; i++)
+  {
+    ht->elements = list_initialize();
+  }
   ht->compare_funct = compare_function; 
   ht->hash_funct = hash_function;
+
+  //printf("%d\n", ht->size);
 
   return ht;
 }
@@ -42,10 +46,12 @@ void ht_free(tHashTable ht)
 
 tHashTable ht_insert(tHashTable ht, void* element)
 {
-  int hash = (int)ht->hash_funct;
-  int key = hash % ht->size;
-  
-  ht = list_insert_end(ht->elements, element);
+  int hash = ht->hash_funct();
+  //int key = hash % ht->size;  
+
+  ht->elements = list_insert_end(ht->elements, element);
+
+  return ht;
 }
 
 tHashTable ht_delete(tHashTable ht, void* element)
@@ -60,12 +66,7 @@ void *ht_lookup(tHashTable ht, void* element)
 
 void ht_print(tHashTable ht, void (*print_function)())
 {
-  int i;
-
-  for(i=0; i<; i++)
-  {
-    print_function();
-  }
+  print_function();
 }
 
 void ht_foreach(tHashTable ht, void (*function)(void*))
