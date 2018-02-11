@@ -25,7 +25,7 @@ tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_functio
   tHashTable ht = check_malloc(HASHT_SIZE);
 
   int i;
-  for(i=0; i< size; i++)
+  for(i=0; i<size; i++)
   {
     ht->buckets[i] = list_initialize();
   }
@@ -40,7 +40,11 @@ tHashTable ht_initialize(int size, int (*compare_function)(), int (*hash_functio
 
 void ht_free(tHashTable ht)
 {
-  list_free(ht->buckets);
+  int i;
+  for(i=0; i<ht->size; i++)
+  {
+    list_free(ht->buckets[i]);
+  }
   free(ht);
   //printf("Freeing completed.\n");
 }
