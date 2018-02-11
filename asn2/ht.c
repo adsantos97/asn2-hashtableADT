@@ -73,7 +73,7 @@ void *ht_lookup(tHashTable ht, void* element)
 
 void ht_print(tHashTable ht, void (*print_function)())
 {
-  print_function();
+  
 }
 
 void ht_foreach(tHashTable ht, void (*function)(void*))
