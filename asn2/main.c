@@ -60,6 +60,9 @@ int main()
       case 'p':  ht_print(ht, int_print);
                  break;
 
+      case 'a':  ht_foreach(ht, int_print);
+                 break;
+
       case 'q':  ht_free(ht);
                  exit(0);
     }
