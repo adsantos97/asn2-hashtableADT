@@ -65,7 +65,9 @@ tHashTable ht_delete(tHashTable ht, void* element)
 
 void *ht_lookup(tHashTable ht, void* element)
 {
-  int index = ht->hash_funct(element);
+  int index = ht->hash_funct(element) % ht->size;
+  
+  list_member(ht->buckets[index], element, ht->compare_funct);
 }
 
 void ht_print(tHashTable ht, void (*print_function)())
