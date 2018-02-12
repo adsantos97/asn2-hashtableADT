@@ -61,6 +61,8 @@ tHashTable ht_delete(tHashTable ht, void* element)
   int index = ht->hash_funct(element) % ht->size;
   printf("Hashed Index: %d\n", index);
   list_remove(ht->buckets[index], element, ht->compare_funct);
+
+  return ht;
 }
 
 void *ht_lookup(tHashTable ht, void* element)
@@ -68,6 +70,8 @@ void *ht_lookup(tHashTable ht, void* element)
   int index = ht->hash_funct(element) % ht->size;
   
   list_member(ht->buckets[index], element, ht->compare_funct);
+
+  return element;
 }
 
 void ht_print(tHashTable ht, void (*print_function)())
@@ -83,18 +87,30 @@ void ht_print(tHashTable ht, void (*print_function)())
 
 void ht_foreach(tHashTable ht, void (*function)(void*))
 {
-
+  int i;
+  for(i=0; i<ht->size; i++)
+  {
+    list_foreach(ht->buckets[i], function);
+  }
 }
 
-void ht_foreach1(tHashTable ht, void (*function)(void* element, void* param1),
+void ht_foreach1(tHashTable ht, void (*function)(void*, void*),
                  void* param1)
 {
-
+  int i;
+  for(i=0; i<ht->size; i++)
+  {
+    list_foreach1(ht->buckets[i], function, param1);
+  }
 }
 
-void ht_foreach2(tHashTable ht, void (*function)(void* element, void* param1,
-                 void* param2), void* param1, void* param2)
+void ht_foreach2(tHashTable ht, void (*function)(void*, void*, void*), 
+                 void* param1, void* param2)
 {
-
+  int i;
+  for(i=0; i<ht->size; i++)
+  {
+    list_foreach2(ht->buckets[i], function, param1, param2);
+  }
 }
 
