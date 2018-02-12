@@ -49,7 +49,8 @@ void ht_free(tHashTable ht)
 
 tHashTable ht_insert(tHashTable ht, void* element)
 {
-  int index = ht->hash_funct(element);
+  int index = ht->hash_funct(element) % ht->size;
+  printf("Hashed Index: %d\n", index);
   list_insert_end(ht->buckets[index], element);
 
   return ht;
@@ -57,12 +58,14 @@ tHashTable ht_insert(tHashTable ht, void* element)
 
 tHashTable ht_delete(tHashTable ht, void* element)
 {
-
+  int index = ht->hash_funct(element) % ht->size;
+  printf("Hashed Index: %d\n", index);
+  list_remove(ht->buckets[index], element, ht->compare_funct);
 }
 
 void *ht_lookup(tHashTable ht, void* element)
 {
-
+  int index = ht->hash_funct(element);
 }
 
 void ht_print(tHashTable ht, void (*print_function)())
@@ -70,7 +73,9 @@ void ht_print(tHashTable ht, void (*print_function)())
   int i;
   for(i=0; i<ht->size; i++)
   {
+    printf("Hash Table Index %d: ", i);
     list_foreach(ht->buckets[i], print_function);
+    printf("\n");
   } 
 }
 
